@@ -24,13 +24,21 @@ export class MovementsMenu {
   public async execute (input: string, user: User| null): Promise<void> {
     switch (input) {
       case '9':
-        await this.list( user);
+        await this.list(user);
         break;
       case '10':
-        await this.create();
+      if(user){
+        await this.create(user);
+      }else{
+        console.log('Você precisa estar logado')
+      }
         break;
       case '11':
-        await this.edit();
+        if(user){
+          await this.edit(user);
+        }else{
+          console.log('Você precisa estar logado')
+        }
         break;
       case '12':
         await this.delete();
@@ -87,8 +95,8 @@ export class MovementsMenu {
     }while( control != '0');
   }
 
-  private async create (): Promise<void> {
-    let userId: number = User.id;
+  private async create (user: User): Promise<void> {
+    let userId: number = user.id;
     let type: string = prompt('Ação realizada(entrada ou saída): ');
     let town: string = prompt('Cidade: ');
     let amount: number =Number (prompt('Quantidade: '));
@@ -101,11 +109,11 @@ export class MovementsMenu {
     }
   }
 
-  private async edit (): Promise<void> {
+  private async edit (user: User): Promise<void> {
     let id: number = Number(prompt('Qual o ID? '));
     let movement: Movement | null = await this.controller.find(id);
     if (movement) {
-      let userId: number = User.id;
+      let userId: number = user.id;
       let type: string = prompt('Ação realizada(entrada ou saída): ');
       let town: string = prompt('Cidade: ');
       let categoryId: number = Number(prompt('ID da categoria: '));

@@ -1,6 +1,7 @@
 import { BaseEntity, Column, Entity, JoinColumn, ManyToOne, OneToMany, PrimaryGeneratedColumn } from "typeorm";
 import { Movement } from "./Movement";
 import { Dc } from "./Dc";
+import { Item } from "./Item";
 
 @Entity('recipients')
 export class Recipient extends BaseEntity {
@@ -24,10 +25,21 @@ export class Recipient extends BaseEntity {
 
   @Column()
   public items_id: number;
-  @Column()
 
-  @OneToMany(() => Dc , (dcs) => dcs.recipientes_id)
-  public dcs: Promise<Dc[]>
-  static id: number;
+  @Column()
+  public dc_id: number;
+
+  @Column()
+  public movements_id:number;
+
+  @OneToMany(() => Movement , (movements) => movements.recipient_id)
+  public movements: Promise<Movement>
+
+  @OneToMany(() => Dc , (dcs) => dcs.recipients_id)
+  public dcs: Promise<Dc>
+
+  @ManyToOne(() => Item, (item) => item.dcs)
+  @JoinColumn({ name: 'item_id' })
+  public item: Item;
 
 }
