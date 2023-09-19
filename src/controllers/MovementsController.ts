@@ -23,8 +23,8 @@ export class MovementsController {
       type: type,
       town : town,
       amount: amount,
-      user_id: userId,
-      category_id: categoryId,
+      user: user,
+      category: category,
     }).save();
   }
 
@@ -42,11 +42,15 @@ export class MovementsController {
     if (! category) {
       throw new Error('Tarefa não encontrada!');
     }
+    let user: User | null = await User.findOneBy({ id: userId });
+    if (! user) {
+      throw new Error('Usuário não encontrado!');
+    }
 
-    movement.user_id = userId;
+    movement.user = user;
     movement.type = type;
     movement.town = town;
-    movement.category_id = categoryId;
+    movement.category = category;
     movement.save();
 
     return movement;

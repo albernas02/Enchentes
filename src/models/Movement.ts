@@ -1,6 +1,7 @@
 import { BaseEntity, Column, Entity, JoinColumn, ManyToOne, OneToMany, PrimaryGeneratedColumn } from "typeorm";
 import { User } from "./User";
 import { Category } from "./Category";
+import { Recipient } from "./Recipient";
 
 @Entity('movements')
 export class Movement extends BaseEntity {
@@ -20,23 +21,23 @@ export class Movement extends BaseEntity {
   public amount: number;
 
   @Column()
-  public user_id: number;
+  public user_name: string;
 
   @Column()
-  public category_id: number;
+  public category_name: string;
 
   @Column()
-  public recipient_id: number;
+  public recipient_name: string;
 
   @ManyToOne(() => User, (user) =>user.movements)
-  @JoinColumn({name : 'create_id'})
-  public creator: Promise<User>;
+  @JoinColumn({name : 'user_name'})
+  public user: User;
 
-  @ManyToOne(() => User, (user) =>user.movements)
-  @JoinColumn({name : 'collaborator_id'})
-  public collaborator: Promise<User>;
+  @ManyToOne(() => Recipient, (recipient) =>recipient.movements)
+  @JoinColumn({name : 'recipient_name'})
+  public recipient: Recipient;
 
   @ManyToOne(() => Category, (category) =>category.id)
-  @JoinColumn({name : 'category_id'})
-  public category: Promise<Category>;
+  @JoinColumn({name : 'category_name'})
+  public category: Category;
 }

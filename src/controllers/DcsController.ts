@@ -54,7 +54,7 @@ export class DcController{
 
     dc.town = town;
     dc.item = item;
-    dc.user = user;
+    dc.user =user;
     dc.recipient = recipient;
     await dc.save();
     return dc;

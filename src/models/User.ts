@@ -22,10 +22,10 @@ export class User extends BaseEntity {
   @Column()
   public situation: string;
 
-  @OneToMany(() => Movement, (movements) => movements.user_id)
-  public movements: Promise<Movement[]>
+  @OneToMany(() => Movement, (movements) => movements.user)
+  public movements: Movement[];
 
-  @OneToMany(() => Dc, (dcs) => dcs.users_id)
-  public dcs: Promise<Dc[]>
+  @OneToMany(() => Dc, (dcs) => dcs.user)
+  public dcs: Dc[];
 
 }

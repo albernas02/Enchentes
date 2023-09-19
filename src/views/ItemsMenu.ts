@@ -44,8 +44,10 @@ export class ItemsMenu{
     let description: string = prompt('Descrição do item: ');
     let amount: number = Number(prompt('Insira a Quantidade do item'));
     let situation: string = "A";
+    let categoryId: number = Number(prompt('Insira o id da categoria'));
+    let dcId: number = Number(prompt('Insira o id do dc'))
 
-    let item: Item = await this.controller.create(description, amount, situation);
+    let item: Item = await this.controller.create(description, amount, situation, categoryId, dcId);
     console.log(`item ID #${item.id} criado com sucesso!`);
   }
 
@@ -56,7 +58,10 @@ export class ItemsMenu{
     if (item) {
       let description: string = prompt(`Descrição do item: (${item.description})`, item.description);
       let amount: number = Number(prompt(`Quantidade do item: (${item.amount})`));
-      item = await this.controller.edit(item, description, amount);
+      let categoryId: number = Number(prompt('Insira o id da categoria'));
+      let dcId: number = Number(prompt('Insira o id do dc'))
+
+      item = await this.controller.edit(item, description, amount, categoryId, dcId);
       console.log(`Item ID #${item.id} atualizado com sucesso!`);
       item.save();
     } else {

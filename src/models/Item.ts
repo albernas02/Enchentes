@@ -1,5 +1,6 @@
-import { BaseEntity, Column, Entity, OneToMany, PrimaryGeneratedColumn, Table } from "typeorm";
+import { BaseEntity, Column, Entity, ManyToOne, OneToMany, PrimaryGeneratedColumn, Table } from "typeorm";
 import { Dc } from "./Dc";
+import { Category } from "./Category";
 
 Entity('items')
 export class Item extends BaseEntity {
@@ -15,6 +16,9 @@ export class Item extends BaseEntity {
   @Column()
   public situation: string;
 
-  @OneToMany(() => Dc, (dcs) => dcs.users_id)
-  public dcs: Promise<Dc[]>
+  @ManyToOne(() => Category, (categories) => categories.item)
+  public category: Category;
+
+  @OneToMany(() => Dc, (dc) => dc.item)
+  public dc: Dc;
 }

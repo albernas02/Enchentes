@@ -65,11 +65,7 @@ export class MovementsMenu {
         break;
         case'2':
           let category : number = Number(prompt('Insira o id da categoria '));
-          let categories : Movement[] = await Movement.find({
-            where: {
-              category_id: category
-            }
-          });
+          let categories : Movement[] = await this.list()
           console.table(categories);
         break;
         case '3':
@@ -93,6 +89,11 @@ export class MovementsMenu {
         break
       }
     }while( control != '0');
+  }
+
+  private async list (): Promise<void> {
+    let movements: Movement[] = await this.controller.list();
+    console.table(movements);
   }
 
   private async create (user: User): Promise<void> {

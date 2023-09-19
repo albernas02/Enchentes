@@ -1,5 +1,6 @@
 import { BaseEntity, Column, Entity, OneToMany, PrimaryGeneratedColumn, Table } from "typeorm";
 import { Movement} from "./Movement";
+import { Item } from "./Item";
 
 @Entity('categories')
 export class Category extends BaseEntity {
@@ -12,6 +13,9 @@ export class Category extends BaseEntity {
   @Column()
   public situation: string;
 
-  @OneToMany(() => Movement, (movements) => movements.category_id)
-  public movements: Promise<Movement[]>;
+  @OneToMany(() => Item, (items) => items.category)
+  public item: Item;
+
+  @OneToMany(() => Movement, (movements) => movements.category)
+  public movements: Movement;
 }

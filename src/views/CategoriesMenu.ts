@@ -44,7 +44,9 @@ export class CategoriesMenu {
     private async create (): Promise<void> {
       let description: string = prompt('Descrição da categoria: ');
       let situation: string = 'A';
-      let category: Category = await this.controller.create(description,situation);
+      let itemId: number = Number(prompt('Insira o id do item'));
+      let movementId: number = Number(prompt('Insira o id da movimentação'))
+      let category: Category = await this.controller.create(description,situation, itemId, movementId);
       console.log(`Categoria ID #${category.id} criado com sucesso!`);
     }
 
@@ -54,7 +56,9 @@ export class CategoriesMenu {
     let category: Category | null = await this.controller.find(id);
     if (category) {
       let description: string = prompt(`Descrição da categoria: (${category.description})`, category.description);
-      category = await this.controller.edit(category, description);
+      let itemId: number = Number(prompt('Insira o id do item'));
+      let movementId: number = Number(prompt('Insira o id da movimentação'))
+      category = await this.controller.edit(category, description, itemId, movementId);
       console.log(`Categoria ID #${category.id} atualizado com sucesso!`);
       category.save();
     } else {

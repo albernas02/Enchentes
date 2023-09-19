@@ -24,22 +24,22 @@ export class Recipient extends BaseEntity {
   public booked_at: string;
 
   @Column()
-  public items_id: number;
+  public items_name: string;
 
   @Column()
-  public dc_id: number;
+  public dc_name: string;
 
   @Column()
-  public movements_id:number;
+  public movements_name: string;
 
-  @OneToMany(() => Movement , (movements) => movements.recipient_id)
-  public movements: Promise<Movement>
+  @OneToMany(() => Movement , (movements) => movements.recipient)
+  public movements: Movement
 
-  @OneToMany(() => Dc , (dcs) => dcs.recipients_id)
-  public dcs: Promise<Dc>
+  @OneToMany(() => Dc , (dcs) => dcs.recipient)
+  public dcs: Dc
 
-  @ManyToOne(() => Item, (item) => item.dcs)
-  @JoinColumn({ name: 'item_id' })
+  @ManyToOne(() => Item, (item) => item.dc)
+  @JoinColumn({ name: 'item_name' })
   public item: Item;
 
 }
