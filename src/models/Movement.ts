@@ -21,23 +21,31 @@ export class Movement extends BaseEntity {
   public amount: number;
 
   @Column()
-  public user_name: string;
+  public user_id: number;
 
   @Column()
-  public category_name: string;
+  public category_id: number;
 
-  @Column()
-  public recipient_name: string;
+  @Column({
+    type: 'text',
+    unique: true,
+    nullable: true,
+})
+  public recipient_id: number;
 
   @ManyToOne(() => User, (user) =>user.movements)
-  @JoinColumn({name : 'user_name'})
-  public user: User;
+  @JoinColumn({name : 'user_id'})
+  public user: Promise<User>;
 
   @ManyToOne(() => Recipient, (recipient) =>recipient.movements)
-  @JoinColumn({name : 'recipient_name'})
-  public recipient: Recipient;
+  @JoinColumn({name : 'recipient_id'})
+  public recipient: Promise<Recipient>;
 
   @ManyToOne(() => Category, (category) =>category.id)
-  @JoinColumn({name : 'category_name'})
-  public category: Category;
+  @JoinColumn({name : 'category_id'})
+  public category: Promise<Category>;
+
+
 }
+
+

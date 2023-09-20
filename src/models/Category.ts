@@ -13,9 +13,9 @@ export class Category extends BaseEntity {
   @Column()
   public situation: string;
 
-  @OneToMany(() => Item, (items) => items.category)
-  public item: Item;
+  @OneToMany(() => Item, (items) => items.category_id)
+  public item: Promise<Item[]>;
 
-  @OneToMany(() => Movement, (movements) => movements.category)
-  public movements: Movement;
+  @OneToMany(() => Movement, (movements) => movements.category_id)
+  public movements: Promise<Movement[]>;
 }

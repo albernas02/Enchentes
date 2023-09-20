@@ -15,25 +15,24 @@ export class Dc extends BaseEntity{
   public situation: string;
 
   @Column()
-  public items_name: string;
+  public items_id: number;
 
   @Column()
-  public users_name: string;
+  public users_id: number;
 
   @Column()
-  public recipients_name: string;
-
+  public recipients_id: number;
 
   @ManyToOne(() => Recipient, (recipient) => recipient.dcs)
-  @JoinColumn({ name: 'recipients_name' })
-  public recipient:Recipient;
+  @JoinColumn({ name: 'recipients_id' })
+  public recipient: Promise<Recipient>;
 
   @ManyToOne(() => User, (user) => user.dcs)
-  @JoinColumn({name: 'user_name'})
-  public user: User
+  @JoinColumn({name: 'user_id'})
+  public user: Promise<User>
 
   @ManyToOne(() => Item, (item) => item.dc)
-  @JoinColumn({ name: 'item_name' })
-  public item: Item;
+  @JoinColumn({ name: 'item_id' })
+  public item: Promise<Item>;
 
 }

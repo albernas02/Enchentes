@@ -39,61 +39,16 @@ export class MovementsMenu {
         }else{
           console.log('Você precisa estar logado')
         }
-        break;
+      break;
       case '12':
         await this.delete();
-        break;
+      break;
     }
   }
 
   private async list (user: User | null): Promise<void> {
     let control: string = '';
     let tasks: Movement[] = await this.controller.list();
-
-    do{
-      console.log('[1] Exibir todas as movimentações');
-      console.log('[2] Exibir movimentações por categoria');
-      console.log('[3] Exibir movimentações por período');
-      console.log('[4] Exibir movimentações por situação');
-      console.log('[5] Exibir movimentações por tipo');
-      console.log('[6] Exibir movimentações por cidade');
-      console.log('[0] voltar ao menu anterior');
-      control = prompt('Insira a opção desejada ');
-      switch(control){
-        case '1':
-          console.table(Movement);
-        break;
-        case'2':
-          let category : number = Number(prompt('Insira o id da categoria '));
-          let categories : Movement[] = await this.list()
-          console.table(categories);
-        break;
-        case '3':
-          let start: Date = new Date();
-          let end: Date = new Date(prompt('Insira a data no formato yyyy/mm/dd '));
-          let periods : Movement[] = await Movement.find();
-          console.table(periods);
-        break
-        case '4':
-          let situation: string = prompt('Informe a situação que deseja');
-          let situations: Movement[] = await Movement.find()
-          console.table(situations)
-        break
-        case '5':
-          let creators: Movement[] = await Movement.find({
-            where:{
-              user_id : user?.id
-            }
-          })
-          console.table(creators);
-        break
-      }
-    }while( control != '0');
-  }
-
-  private async list (): Promise<void> {
-    let movements: Movement[] = await this.controller.list();
-    console.table(movements);
   }
 
   private async create (user: User): Promise<void> {
@@ -102,8 +57,9 @@ export class MovementsMenu {
     let town: string = prompt('Cidade: ');
     let amount: number =Number (prompt('Quantidade: '));
     let categoryId: number = Number(prompt('ID da categoria: '));
+    let recipientId: number = Number(prompt('ID da categoria: '));
     try {
-      let task: Movement = await this.controller.create(userId, type, town, amount, categoryId);
+      let task: Movement = await this.controller.create(userId, type, town, amount, categoryId, recipientId);
       console.log(`Tarefa ID #${task.id} criada com sucesso!`);
     } catch (error: any) {
       console.log(error.message);
@@ -119,9 +75,10 @@ export class MovementsMenu {
       let town: string = prompt('Cidade: ');
       let categoryId: number = Number(prompt('ID da categoria: '));
       let amount: number = Number(prompt('Quantidade: '));
+      let recipientId: number = Number(prompt('Quantidade: '));
       movement.save();
       try {
-        movement = await this.controller.edit(movement, userId, type, town, amount, categoryId);
+        movement = await this.controller.edit(movement, userId, type, town, amount, categoryId,recipientId);
         console.log(`Movimentação ID #${movement.id} atualizada com sucesso!`);
       } catch (error: any) {
         console.log(error.message);

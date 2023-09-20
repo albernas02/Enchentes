@@ -16,6 +16,10 @@ export class Item extends BaseEntity {
   @Column()
   public situation: string;
 
+  @Column()
+  public category_id: number;
+
+
   @ManyToOne(() => Category, (categories) => categories.item)
   public category: Category;
 

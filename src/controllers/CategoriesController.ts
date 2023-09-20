@@ -7,14 +7,14 @@ export class CategoriesController {
     return await Category.find();
   }
 
-  async create (description: string, situation: string, itemId: number, movementId: number): Promise<Category> {
+  async create (description: string, situation: string, items_id: number, movements_id: number): Promise<Category> {
 
-    let item: Item | null = await Item.findOneBy({ id: itemId });
+    let item: Item | null = await Item.findOneBy({ id: items_id });
     if (! item) {
       throw new Error('categoria não encontrada!');
     }
 
-    let movement: Movement | null = await Movement.findOneBy({ id: movementId });
+    let movement: Movement | null = await Movement.findOneBy({ id: movements_id });
     if (! movement) {
       throw new Error('categoria não encontrada!');
     }
@@ -22,8 +22,6 @@ export class CategoriesController {
     return await Category.create({
       description: description,
       situation: situation,
-      item: item,
-      movements: movement,
     }).save();
   }
 
@@ -32,24 +30,13 @@ export class CategoriesController {
   }
 
   async edit (category: Category,description: string, itemId: number, movementId: number): Promise<Category> {
-    let item: Item | null = await Item.findOneBy({ id: itemId });
-    if (! item) {
-      throw new Error('categoria não encontrada!');
-    }
-
-    let movement: Movement | null = await Movement.findOneBy({ id: movementId });
-    if (! movement) {
-      throw new Error('categoria não encontrada!');
-    }
-
     category.description = description;
-    category.item = item,
-    category.movements = movement
     await category.save();
     return category;
   }
 
   async delete (category: Category): Promise<void> {
+    category.situation = 'I';
     await category.save();
   }
 }

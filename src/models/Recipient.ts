@@ -38,8 +38,4 @@ export class Recipient extends BaseEntity {
   @OneToMany(() => Dc , (dcs) => dcs.recipient)
   public dcs: Dc
 
-  @ManyToOne(() => Item, (item) => item.dc)
-  @JoinColumn({ name: 'item_name' })
-  public item: Item;
-
 }

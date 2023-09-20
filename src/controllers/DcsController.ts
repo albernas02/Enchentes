@@ -29,15 +29,15 @@ export class DcController{
     return await Dc.create({
       town : town,
       situation : situation,
-      item : item,
-      user : user,
-      recipient : recipient,
+      items_id : item_id,
+      users_id : users_id,
+      recipients_id : recipients_id,
     }).save();
   }
 
-  async edit (dc: Dc, town: string, item_id: number, users_id: number, recipients_id: number): Promise<Dc> {
+  async edit (dc: Dc, town: string, items_id: number, users_id: number, recipients_id: number): Promise<Dc> {
 
-    let item: Item | null = await Item.findOneBy({ id: item_id });
+    let item: Item | null = await Item.findOneBy({ id: items_id });
     if (! item){
       throw new Error('Item não encontrado')
     }
@@ -53,9 +53,9 @@ export class DcController{
 
 
     dc.town = town;
-    dc.item = item;
-    dc.user =user;
-    dc.recipient = recipient;
+    dc.items_id = items_id;
+    dc.users_id =users_id;
+    dc.recipients_id = recipients_id;
     await dc.save();
     return dc;
   }
