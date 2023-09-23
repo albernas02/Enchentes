@@ -1,7 +1,4 @@
 import { User } from '../models/User';
-import { Md5} from 'ts-md5';
-import SHA1 from 'tshash/SHA1';
-import {ParallelHasher} from 'ts-md5';
 
 export class UsersController {
 

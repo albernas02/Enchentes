@@ -25,7 +25,9 @@ export class User extends BaseEntity {
   @OneToMany(() => Movement, (movements) => movements.user)
   public movements: Movement[];
 
-  @OneToMany(() => Dc, (dcs) => dcs.user)
-  public dcs: Dc[];
+  @ManyToOne(() => Dc, (dc) => dc.users)
+  @JoinColumn({name: 'dc_id'})
+  public dc: Promise<Dc>
+
 
 }

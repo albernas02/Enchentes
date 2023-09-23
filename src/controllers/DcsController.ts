@@ -1,63 +1,27 @@
 import { Dc } from "../models/Dc";
-import { Item } from "../models/Item";
-import { Recipient } from "../models/Recipient";
-import { User } from "../models/User";
 
 
 export class DcController{
-  find: any;
   async list (): Promise<Dc[]> {
     return await Dc.find();
   }
 
-  async create (town: string, situation: string, item_id: number, users_id: number, recipients_id: number, ): Promise<Dc> {
-    let item: Item | null = await Item.findOneBy({ id: item_id });
-
-    if (! item){
-      throw new Error('Item não encontrado')
-    }
-    let user: User | null = await User.findOneBy({ id: users_id });
-    if (! user){
-      throw new Error('Usuário não encontrado')
-    }
-
-    let recipient: Recipient | null = await Recipient.findOneBy({ id: recipients_id });
-    if (! recipient){
-      throw new Error('Beneficiário não encontrado')
-    }
+  async create (town: string, situation: string): Promise<Dc> {
 
     return await Dc.create({
       town : town,
       situation : situation,
-      items_id : item_id,
-      users_id : users_id,
-      recipients_id : recipients_id,
     }).save();
   }
 
-  async edit (dc: Dc, town: string, items_id: number, users_id: number, recipients_id: number): Promise<Dc> {
-
-    let item: Item | null = await Item.findOneBy({ id: items_id });
-    if (! item){
-      throw new Error('Item não encontrado')
-    }
-    let user: User | null = await User.findOneBy({ id: users_id });
-    if (! user){
-      throw new Error('Usuário não encontrado')
-    }
-
-    let recipient: Recipient | null = await Recipient.findOneBy({ id: recipients_id });
-    if (! recipient){
-      throw new Error('Beneficiário não encontrado')
-    }
-
-
+  async edit (dc: Dc, town: string): Promise<Dc> {
     dc.town = town;
-    dc.items_id = items_id;
-    dc.users_id =users_id;
-    dc.recipients_id = recipients_id;
     await dc.save();
     return dc;
+  }
+
+  async find (id: number): Promise<Dc|null> {
+    return await Dc.findOneBy({ id });
   }
 
   async delete (dc: Dc): Promise<void> {

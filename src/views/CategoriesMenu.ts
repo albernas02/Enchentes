@@ -13,30 +13,30 @@ export class CategoriesMenu {
   }
 
   public show (): void {
-    console.log('[5] - Listar categorias');
-    console.log('[6] - Cadastrar novo categoria');
-    console.log('[7] - Editar categoria');
-    console.log('[8] - Excluir categoria');
+    console.log('[1] - Listar categorias');
+    console.log('[2] - Cadastrar novo categoria');
+    console.log('[3] - Editar categoria');
+    console.log('[4] - Excluir categoria');
   }
 
   public async execute (input: string): Promise<void> {
     switch (input) {
-      case '5':
+      case '1':
         await this.list();
         break;
-      case '6':
+      case '2':
         await this.create();
         break;
-      case '7':
+      case '3':
         await this.edit();
         break;
-      case '8':
+      case '4':
         await this.delete();
         break;
     }
   }
 
-    private async list (): Promise<void> {
+    public async list (): Promise<void> {
       let categories: Category[] = await this.controller.list();
       console.table(categories);
     }
@@ -44,21 +44,17 @@ export class CategoriesMenu {
     private async create (): Promise<void> {
       let description: string = prompt('Descrição da categoria: ');
       let situation: string = 'A';
-      let itemId: number = Number(prompt('Insira o id do item'));
-      let movementId: number = Number(prompt('Insira o id da movimentação'))
-      let category: Category = await this.controller.create(description,situation, itemId, movementId);
+      let category: Category = await this.controller.create(description,situation);
       console.log(`Categoria ID #${category.id} criado com sucesso!`);
     }
 
   private async edit (): Promise<void> {
-    this.list();
+    await this.list();
     let id: number = Number(prompt('Qual o ID? '));
     let category: Category | null = await this.controller.find(id);
     if (category) {
       let description: string = prompt(`Descrição da categoria: (${category.description})`, category.description);
-      let itemId: number = Number(prompt('Insira o id do item'));
-      let movementId: number = Number(prompt('Insira o id da movimentação'))
-      category = await this.controller.edit(category, description, itemId, movementId);
+      category = await this.controller.edit(category, description);
       console.log(`Categoria ID #${category.id} atualizado com sucesso!`);
       category.save();
     } else {
@@ -67,7 +63,7 @@ export class CategoriesMenu {
   }
 
   private async delete (): Promise<void> {
-    this.list();
+    await this.list();
     let id: number = Number(prompt('Qual o ID? '));
     let category: Category | null = await this.controller.find(id);
     if (category) {

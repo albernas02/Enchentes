@@ -25,10 +25,10 @@ export class UsersMenu {
   }
 
   public show (): void {
-    console.log('[1] - Listar centro de distribuições');
-    console.log('[2] - Cadastrar novo centro de distribuição');
-    console.log('[3] - Editar centro de distribuição');
-    console.log('[4] - Excluir centro de distribuição');
+    console.log('[1] - Listar usuários');
+    console.log('[2] - Cadastrar novo usuário');
+    console.log('[3] - Editar usuário');
+    console.log('[4] - Excluir usuário');
   }
 
   public async execute (input: string): Promise<void> {

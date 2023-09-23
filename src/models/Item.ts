@@ -1,8 +1,7 @@
-import { BaseEntity, Column, Entity, ManyToOne, OneToMany, PrimaryGeneratedColumn, Table } from "typeorm";
-import { Dc } from "./Dc";
+import { BaseEntity, Column, Entity, JoinColumn, ManyToOne, OneToMany, PrimaryGeneratedColumn, Table } from "typeorm";
 import { Category } from "./Category";
 
-Entity('items')
+@Entity('items')
 export class Item extends BaseEntity {
   @PrimaryGeneratedColumn()
   public id: number;
@@ -19,10 +18,7 @@ export class Item extends BaseEntity {
   @Column()
   public category_id: number;
 
-
-  @ManyToOne(() => Category, (categories) => categories.item)
-  public category: Category;
-
-  @OneToMany(() => Dc, (dc) => dc.item)
-  public dc: Dc;
+  @ManyToOne(() => Category, (category) => category.item)
+  @JoinColumn({ name: 'categories_id' })
+  public recipient: Promise<Category>;
 }

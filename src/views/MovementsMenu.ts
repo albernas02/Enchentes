@@ -2,53 +2,56 @@ import {MovementsController } from '../controllers/MovementsController';
 import { User } from '../models/User';
 import promptSync from 'prompt-sync';
 import { Movement} from '../models/Movement';
-import { Between, Timestamp } from 'typeorm';
+import { DcMenu } from './DcMenu';
+import { CategoriesMenu } from './CategoriesMenu';
 
 const prompt = promptSync();
 
 export class MovementsMenu {
 
   public controller: MovementsController;
+  public dcMenu: DcMenu;
+  public categoryMenu: CategoriesMenu;
 
   constructor () {
     this.controller = new MovementsController();
   }
 
   public show (): void {
-    console.log('[9] - Listar movimentações');
-    console.log('[10] - Cadastrar novo movimentação');
-    console.log('[11] - Editar movimentação');
-    console.log('[12] - Excluir movimentação');
+    console.log('[1] - Listar movimentações');
+    console.log('[2] - Cadastrar novo movimentação');
+    console.log('[3] - Editar movimentação');
+    console.log('[4] - Excluir movimentação');
   }
 
   public async execute (input: string, user: User| null): Promise<void> {
     switch (input) {
-      case '9':
+      case '1':
         await this.list(user);
         break;
-      case '10':
-      if(user){
-        await this.create(user);
-      }else{
-        console.log('Você precisa estar logado')
-      }
+      case '2':
+        if(user){
+          await this.create(user);
+        }else{
+          console.log('Você precisa estar logado')
+        }
         break;
-      case '11':
+      case '3':
         if(user){
           await this.edit(user);
         }else{
           console.log('Você precisa estar logado')
         }
-      break;
-      case '12':
+        break;
+      case '4':
         await this.delete();
-      break;
+        break;
     }
   }
 
   private async list (user: User | null): Promise<void> {
-    let control: string = '';
     let tasks: Movement[] = await this.controller.list();
+    console.table(tasks)
   }
 
   private async create (user: User): Promise<void> {
@@ -56,10 +59,18 @@ export class MovementsMenu {
     let type: string = prompt('Ação realizada(entrada ou saída): ');
     let town: string = prompt('Cidade: ');
     let amount: number =Number (prompt('Quantidade: '));
-    let categoryId: number = Number(prompt('ID da categoria: '));
-    let recipientId: number = Number(prompt('ID da categoria: '));
+    let itemId: number = Number(prompt('ID do item: '));
+    let recipientId;
+    recipientId = null;
+    if(type == 'saida'){
+      let recipientId: number = Number(prompt('ID do beneficiário: '));
+    }else if(type == 'entrada'){
+      recipientId = null;
+    }else{
+      console.log('operaçao inválida')
+    }
     try {
-      let task: Movement = await this.controller.create(userId, type, town, amount, categoryId, recipientId);
+      let task: Movement = await this.controller.create(userId, type, town, amount, itemId, recipientId);
       console.log(`Tarefa ID #${task.id} criada com sucesso!`);
     } catch (error: any) {
       console.log(error.message);

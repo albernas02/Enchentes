@@ -1,7 +1,6 @@
 import { BaseEntity, Column, Entity, JoinColumn, ManyToOne, OneToMany, PrimaryGeneratedColumn } from "typeorm";
 import { Movement } from "./Movement";
 import { Dc } from "./Dc";
-import { Item } from "./Item";
 
 @Entity('recipients')
 export class Recipient extends BaseEntity {
@@ -24,18 +23,12 @@ export class Recipient extends BaseEntity {
   public booked_at: string;
 
   @Column()
-  public items_name: string;
+  public dc_id: number;
 
-  @Column()
-  public dc_name: string;
+  @ManyToOne(() => Dc, (dc) => dc.recipients)
+  @JoinColumn({name: 'dc_id'})
+  public dc: Promise<Dc>
 
-  @Column()
-  public movements_name: string;
-
-  @OneToMany(() => Movement , (movements) => movements.recipient)
-  public movements: Movement
-
-  @OneToMany(() => Dc , (dcs) => dcs.recipient)
-  public dcs: Dc
-
+  @OneToMany(() => Movement, (movements) => movements.recipient)
+  public movements: Movement[];
 }

@@ -1,7 +1,5 @@
-import { Md5} from 'ts-md5';
-import SHA1 from 'tshash/SHA1';
-import {ParallelHasher} from 'ts-md5';
 import { Recipient } from '../models/Recipient';
+import { Dc } from '../models/Dc';
 
 export class RecipientsController {
 
@@ -9,10 +7,18 @@ export class RecipientsController {
     return await Recipient.find();
   }
 
-  async create (name: string, phone: string, situation: string): Promise<Recipient> {
+  async create (name: string, phone: string, situation: string,address: string, dc_id: number): Promise<Recipient> {
+    let dc: Dc | null = await Dc.findOneBy({ id: dc_id });
+    if (! dc) {
+      throw new Error('dc não encontrada!');
+    }
+
     return await Recipient.create({
       name,
       phone,
+      situation,
+      address,
+      dc_id,
     }).save();
   }
 
@@ -20,11 +26,15 @@ export class RecipientsController {
     return await Recipient.findOneBy({ id });
   }
 
-  async edit (recipient: Recipient, name: string, phone: string, situation: string): Promise<Recipient> {
+  async edit (recipient: Recipient, name: string, phone: string, situation: string, dcId: number): Promise<Recipient> {
+    let dc: Dc | null = await Dc.findOneBy({ id: dcId });
+    if (! dc) {
+      throw new Error('categoria não encontrada!');
+    }
     recipient.name = name;
     recipient.phone = phone;
-    // recipient.items = items;
     recipient.situation = situation;
+    recipient.dc_id = dcId
     await recipient.save();
 
     return recipient;
@@ -34,18 +44,4 @@ export class RecipientsController {
     recipient.situation = 'I';
     await recipient.save();
   }
-
-  public dataCryptography = {
-    algorithm : "aes256",
-    secret : "chaves",
-    type : "hex"
-  };
-  cript(password: string) {
-
-    const crypto = require("crypto");
-    const cipher = crypto.createCipher(this.dataCryptography.algorithm, this.dataCryptography.secret);
-
-	  cipher.update(password);
-	  return cipher.final(this.dataCryptography.type);
-  };
 }

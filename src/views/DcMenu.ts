@@ -1,6 +1,5 @@
 import { DcController } from "../controllers/DcsController";
 import { Dc } from "../models/Dc";
-import { Item } from "../models/Item";
 import PromptSync from "prompt-sync";
 const prompt = PromptSync()
 
@@ -12,30 +11,30 @@ export class DcMenu{
   }
 
   public show (): void {
-    console.log('[5] - Listar centros de distribuições');
-    console.log('[6] - Cadastrar novo centro de distribuição');
-    console.log('[7] - Editar centro de distribuição');
-    console.log('[8] - Excluir centro de distribuição');
+    console.log('[1] - Listar centros de distribuições');
+    console.log('[2] - Cadastrar novo centro de distribuição');
+    console.log('[3] - Editar centro de distribuição');
+    console.log('[4] - Excluir centro de distribuição');
   }
 
   public async execute (input: string): Promise<void> {
     switch (input) {
-      case '5':
+      case '1':
         await this.list();
         break;
-      case '6':
+      case '2':
         await this.create();
         break;
-      case '7':
+      case '3':
         await this.edit();
         break;
-      case '8':
+      case '4':
         await this.delete();
         break;
     }
   }
 
-  private async list (): Promise<void> {
+  public async list (): Promise<void> {
     let dcs: Dc[] = await this.controller.list();
     console.table(dcs);
   }
@@ -43,11 +42,7 @@ export class DcMenu{
   private async create (): Promise<void> {
     let town: string = prompt('Insira a cidade: ');
     let situation: string = 'A';
-    let item_id: number = Number(prompt('Insira o id do item'));
-    let user_id: number = Number(prompt('Insira o id do usuario'));
-    let recipientes_id: number = Number(prompt('Insira o id do beneficiário'));
-
-    let dc: Dc = await this.controller.create(town,situation,item_id, user_id,recipientes_id);
+    let dc: Dc = await this.controller.create(town,situation);
     console.log(`Centro de distribuição ID #${dc.id} criado com sucesso!`);
   }
 
@@ -57,10 +52,7 @@ export class DcMenu{
     let dc: Dc | null = await this.controller.find(id);
     if (dc) {
       let town: string = prompt(`Cidade do centro de distribuição: (${dc.town})`, dc.town);
-      let item: number = Number(prompt(`Item: (${dc.item})`));
-      let user: number = Number(prompt(`Item: (${dc.item})`));
-      let recipiente: number = Number(prompt(`Item: (${dc.item})`));
-      dc = await this.controller.edit(dc, town, item, user, recipiente);
+      dc = await this.controller.edit(dc, town);
       console.log(`Centro de distribuição ID #${dc.id} atualizado com sucesso!`);
       dc.save();
     } else {
@@ -69,7 +61,7 @@ export class DcMenu{
   }
 
   private async delete (): Promise<void> {
-    this.list();
+    await this.list();
     let id: number = Number(prompt('Qual o ID? '));
     let dc: Dc | null = await this.controller.find(id);
     if (dc) {
@@ -79,5 +71,4 @@ export class DcMenu{
       console.log('Centro de distribuição não encontrada!');
     }
   }
-
 }

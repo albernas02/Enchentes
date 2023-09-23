@@ -12,24 +12,24 @@ export class ItemsMenu{
   }
 
   public show (): void {
-    console.log('[5] - Listar itens');
-    console.log('[6] - Cadastrar novo item');
-    console.log('[7] - Editar item');
-    console.log('[8] - Excluir item');
+    console.log('[1] - Listar itens');
+    console.log('[2] - Cadastrar novo item');
+    console.log('[3] - Editar item');
+    console.log('[4] - Excluir item');
   }
 
   public async execute (input: string): Promise<void> {
     switch (input) {
-      case '5':
+      case '1':
         await this.list();
         break;
-      case '6':
+      case '2':
         await this.create();
         break;
-      case '7':
+      case '3':
         await this.edit();
         break;
-      case '8':
+      case '4':
         await this.delete();
         break;
     }
@@ -47,7 +47,7 @@ export class ItemsMenu{
     let categoryId: number = Number(prompt('Insira o id da categoria'));
     let dcId: number = Number(prompt('Insira o id do dc'))
 
-    let item: Item = await this.controller.create(description, amount, situation, categoryId, dcId);
+    let item: Item = await this.controller.create(description, amount, situation, categoryId);
     console.log(`item ID #${item.id} criado com sucesso!`);
   }
 
@@ -59,9 +59,8 @@ export class ItemsMenu{
       let description: string = prompt(`Descrição do item: (${item.description})`, item.description);
       let amount: number = Number(prompt(`Quantidade do item: (${item.amount})`));
       let categoryId: number = Number(prompt('Insira o id da categoria'));
-      let dcId: number = Number(prompt('Insira o id do dc'))
 
-      item = await this.controller.edit(item, description, amount, categoryId, dcId);
+      item = await this.controller.edit(item, description, amount, categoryId);
       console.log(`Item ID #${item.id} atualizado com sucesso!`);
       item.save();
     } else {

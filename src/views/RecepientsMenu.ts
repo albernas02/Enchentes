@@ -1,13 +1,14 @@
 import { RecipientsController } from '../controllers/RecipientsController';
 import { Recipient } from '../models/Recipient';
-import { User } from '../models/User';
 import promptSync from 'prompt-sync';
+import { DcMenu } from './DcMenu';
 
 const prompt = promptSync();
 
 export class RecepientsMenu {
 
   public controller: RecipientsController;
+  public controllerDc: DcMenu;
 
   constructor () {
     this.controller = new RecipientsController();
@@ -45,9 +46,10 @@ export class RecepientsMenu {
   private async create (): Promise<void> {
     let name: string = prompt('Nome: ');
     let phone: string = prompt('Telefone: ');
+    let address: string = prompt('Endereço: ');
     let situation: string = 'A';
-    // let items: string[] = prompt('Itens recebidos: ');
-    let recipient: Recipient = await this.controller.create(name, phone, situation);
+    let dcId: number = Number(prompt('Insira o id do cd '));
+    let recipient: Recipient = await this.controller.create(name, phone, situation,address, dcId);
     console.log(`Beneficiário ID #${recipient.id} criado com sucesso!`);
   }
 
@@ -59,7 +61,8 @@ export class RecepientsMenu {
       let name = prompt(`Nome (${recipient.name}): `, recipient.name);
       let phone = prompt(`Telefone (${recipient.phone}): `, recipient.phone);
       let situation = prompt(`Situação (${recipient.situation}): `, recipient.situation);
-      recipient = await this.controller.edit(recipient, name, phone, situation);
+      let dcId: number = Number(prompt('Insira o id da categoria '));
+      recipient = await this.controller.edit(recipient, name, phone, situation, dcId);
       console.log(`Beneficiário ID #${recipient.id} atualizado com sucesso!`);
     } else {
       console.log('Beneficiário não encontrado!');
