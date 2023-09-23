@@ -4,7 +4,6 @@ export class CategoriesController {
   async list (): Promise<Category[]> {
     return await Category.find();
   }
-
   async create (description: string, situation: string): Promise<Category> {
 
     return await Category.create({
