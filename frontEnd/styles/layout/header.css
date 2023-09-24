@@ -1,0 +1,15 @@
+.container-navbar{
+  display: flex;
+  justify-content: center;
+  background-color: #2568f7;
+  width: 100vw;
+  height: 80px;
+  box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
+}
+
+.texto-nav{
+  font-weight: 700;
+  font-size: 40px;
+  padding-top: 20px;
+  color: #ffff;
+}

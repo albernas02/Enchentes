@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="/Enchentes/frontEnd/styles/base/base.css">
+  <link rel="stylesheet" href="/Enchentes/frontEnd/styles/base/reset.css">
+  <link rel="stylesheet" href="/Enchentes/frontEnd/styles/layout/header.css">
+  <link rel="stylesheet" href="/Enchentes/frontEnd/styles/layout/footer.css">
+  <link rel="stylesheet" href="/Enchentes/frontEnd/styles/componentes/banner.css">
+  <link rel="stylesheet" href="/Enchentes/frontEnd/styles/componentes/button.css">
+  <link rel="stylesheet" href="/Enchentes/frontEnd/styles/componentes/form-groups.css">
+
+  <title>Cadastro Usuários</title>
+
+</head>
+  <body>
+
+
+  <header>
+    <div class="container-navbar">
+      <nav class="texto-nav">
+        <h1>Ajude o vale</h1>
+      </nav>
+    </div>
+  </header>
+
+    <div class="container_form">
+      <h1>Cadastro de Usuários</h1>
+      <form class="form" action="#" method="post">
+
+          <div class="form_grupo">
+              <label for="nome" class="form_label">Nome</label>
+              <input type="text" name="nome" class="form_input" id="nome" placeholder="" required>
+          </div>
+
+          <div class="form_grupo">
+              <label for="e-mail" class="form_label">Email</label>
+              <input type="email" name="email" class="form_input" id="email" placeholder=""  required>
+          </div>
+
+          <div class="form_grupo">
+            <label for="password" class="form_label">Senha</label>
+            <input type="password" name="password"  class="form_input" id="password" placeholder="">
+          </div>
+
+          <div class="form_grupo">
+              <label for="datanascimento" class="form_label">Data de Nascimento</label>
+              <input type="date" name="datanascimento" class="form_input" id="datanascimento" placeholder="data" required>
+          </div>
+          <div class="form_grupo">
+            <input type="submit" value="Salvar" class="btn" />
+          </div>
+      </form>
+      <div class="form_grupo">
+        <a href="/Enchentes/frontEnd/html/index.html">
+          <input type="submit" value="Voltar" class="btn" />
+        </a>
+      </div>
+  </div>
+
+  <footer class="footer">
+    <img class="footer__logo" src="" alt="">
+    <span class="footer__copy">PROJETO ENCHENTE | &copy;2023 Todos direitos reservados</span>
+  </footer>
+</body>
+</html>

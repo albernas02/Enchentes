@@ -1,0 +1,101 @@
+
+.formLogin {
+  display: flex;
+  flex-direction: column;
+  background-color: #fff;
+  border-radius: 7px;
+  padding: 40px;
+  box-shadow: 10px 10px 40px rgba(0, 0, 0, 0.4);
+  gap: 5px
+}
+
+.areaLogin img {
+  width: 420px;
+}
+
+.formLogin h1 {
+  padding: 0;
+  margin: 0;
+  font-size: 2.3em;
+}
+
+.formLogin p {
+  display: inline-block;
+  font-size: 14px;
+  color: #666;
+  margin-bottom: 25px;
+}
+
+.formLogin input {
+  padding: 15px;
+  font-size: 14px;
+  border: 1px solid #ccc;
+  margin-bottom: 20px;
+  margin-top: 5px;
+  border-radius: 4px;
+  transition: all linear 160ms;
+  outline: none;
+}
+
+
+.formLogin input:focus {
+  border: 1px solid #0a3a81;
+}
+
+.formLogin label {
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.formLogin a {
+  display: inline-block;
+  margin-bottom: 20px;
+  font-size: 13px;
+  color: #555;
+  transition: all linear 160ms;
+}
+
+.formLogin a:hover {
+  color:#0a3a81;
+}
+
+
+
+
+
+/* cadastros usuários*/
+
+.container_form {
+  width: 470px;
+  height: 440px;
+  display: flex;
+  margin: auto;
+  margin-top: 40px;
+  align-items: center;
+  flex-direction: column;
+  background:#ffffff;
+  padding: 25px;
+  border-radius:7px;
+  box-shadow: rgba(50, 50, 93, 0.25) 0px 50px 100px -20px, rgba(0, 0, 0, 0.3) 0px 30px 60px -30px, rgba(10, 37, 64, 0.35) 0px -2px 6px 0px inset;
+}
+.container_form h1 {
+  font-size: 30px;
+  color: #2568f7;
+  border-bottom: 1px #7c7c7c solid;
+  margin-bottom: 15px;
+  padding-bottom: 10px;
+}
+.form_grupo {
+  width: 100%;
+  margin-bottom: 25px;
+}
+.form_input {
+  font-size: 14px;
+  padding: 8px 133px;
+  border-radius: 7px;
+  border: 1px #979797 solid;
+  background: #fdfdfd;
+}
+
+
+/*Fim cadastro Usuários*/
