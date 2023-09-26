@@ -47,7 +47,7 @@ export class DcMenu{
   }
 
   private async edit (): Promise<void> {
-    this.list();
+    await this.list();
     let id: number = Number(prompt('Qual o ID? '));
     let dc: Dc | null = await this.controller.find(id);
     if (dc) {
@@ -56,7 +56,7 @@ export class DcMenu{
       console.log(`Centro de distribuição ID #${dc.id} atualizado com sucesso!`);
       dc.save();
     } else {
-      console.log('Item não encontrado!');
+      console.log('Centro de distribuição não encontrado!');
     }
   }
 

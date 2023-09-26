@@ -16,9 +16,6 @@ export class UsersMenu {
     let email: string = prompt('Insira seu email ');
     let aux: any=this.controller.cript(prompt('Insira sua senha '));
     let password: string = aux;
-
-
-    let controlaUser: UsersController = new UsersController();
     let user: User | null = await User.findOneBy({email : email, password : password});
 
     return user;
@@ -63,7 +60,7 @@ export class UsersMenu {
   }
 
   private async edit (): Promise<void> {
-    this.list();
+    await this.list();
     let id: number = Number(prompt('Qual o ID? '));
     let user: User | null = await this.controller.find(id);
     if (user) {
@@ -72,21 +69,21 @@ export class UsersMenu {
       let email = prompt(`E-mail (${user.email}): `, user.email);
       let situation = prompt(`Situação (${user.situation}): `, user.situation);
       user = await this.controller.edit(user, name,  password, email, situation);
-      console.log(`Centro de distribuição ID #${user.id} atualizado com sucesso!`);
+      console.log(`Usuário ID #${user.id} atualizado com sucesso!`);
     } else {
-      console.log('Centro de distribuição não encontrado!');
+      console.log('Usuário não encontrado!');
     }
   }
 
   private async delete (): Promise<void> {
-    this.list();
+    await this.list();
     let id: number = Number(prompt('Qual o ID? '));
     let user: User | null = await this.controller.find(id);
     if (user) {
       await this.controller.delete(user);
-      console.log(`Centro de distribuição ID #${id} inativado com sucesso!`);
+      console.log(`Usuário ID #${id} inativado com sucesso!`);
     } else {
-      console.log('Centro de distribuição não encontrado!');
+      console.log('Usuário não encontrado!');
     }
   }
 }

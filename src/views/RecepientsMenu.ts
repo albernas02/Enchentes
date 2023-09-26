@@ -54,7 +54,7 @@ export class RecepientsMenu {
   }
 
   private async edit (): Promise<void> {
-    this.list();
+    await this.list();
     let id: number = Number(prompt('Qual o ID? '));
     let recipient: Recipient | null = await this.controller.find(id);
     if (recipient) {
@@ -70,14 +70,14 @@ export class RecepientsMenu {
   }
 
   private async delete (): Promise<void> {
-    this.list();
+    await this.list();
     let id: number = Number(prompt('Qual o ID? '));
     let recipient: Recipient | null = await this.controller.find(id);
     if (recipient) {
       await this.controller.delete(recipient);
-      console.log(`Centro de distribuição ID #${id} inativado com sucesso!`);
+      console.log(`Beneficiário ID #${id} inativado com sucesso!`);
     } else {
-      console.log('Centro de distribuição não encontrado!');
+      console.log('Beneficiário não encontrado!');
     }
   }
 }

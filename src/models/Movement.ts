@@ -26,6 +26,13 @@ export class Movement extends BaseEntity {
   @Column()
   public item_id: number;
 
+//   @Column({
+//     type: 'text',
+//     unique: true,
+//     nullable: true,
+// })
+//   public doador: string|null
+
   @Column({
     type: 'text',
     unique: true,
