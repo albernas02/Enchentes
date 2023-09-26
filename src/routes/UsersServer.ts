@@ -62,7 +62,7 @@ server.use(express.json())
 export default {
   start(){
       server.listen(3000, () =>{
-      console.log(`server started on port 3000`)
+      console.log(`user server started on port 3000`)
     });
   }
 };

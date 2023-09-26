@@ -8,6 +8,12 @@ import promptSync from 'prompt-sync';
 import { DcMenu } from './views/DcMenu';
 import { start } from 'repl';
 import UsersServer from './routes/UsersServer';
+// import RecipientsServer from './routes/RecipientsServer';
+// import ItemsServer from './routes/ItemsServer';
+// import DcsServer from './routes/DcsServer';
+// import CategoriesServer from './routes/CategoriesServer';
+// import MovementsServer from './routes/MovementsServer';
+// import Server from './routes/Server';
 
 const prompt = promptSync();
 
@@ -21,9 +27,20 @@ async function main(): Promise<void> {
   let itemsMenus: ItemsMenu = new ItemsMenu();
   let dcsMenu: DcMenu = new DcMenu();
 
-  UsersServer.start()
+
+  // Server.start();
+    UsersServer.start();
+  // RecipientsServer.start();
+  // DcsServer.start();
+  // ItemsServer.start();
+  // CategoriesServer.start();
+  // MovementsServer.start();
+
+
 //   let control: string = '';
 //   let input: string = '';
+
+
 // do{
 //   let user = usersMenu.loginMenu();
 
