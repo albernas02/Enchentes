@@ -1,93 +1,82 @@
-import { Category } from '../models/Category';
+import {Request, Response} from "express";
+import cors from 'cors';
 import { Movement } from '../models/Movement';
-import { User } from '../models/User';
 import { Recipient } from '../models/Recipient';
 import { Item } from '../models/Item';
 
 export class MovementsController {
-  async list (): Promise<Movement[]> {
-    return await Movement.find();
+
+  async list (req: Request, res: Response): Promise<Response>{
+    let movements: Movement[] = await Movement.find();
+    return res.status(200).json(movements);
   }
 
-  async create (userId: number, type: string,town: string, amount: number, itemId: number, recipient_id: number|null): Promise<Movement> {
-    let user: User | null = await User.findOneBy({ id: userId });
-    if (! user) {
-      throw new Error('Usuário não encontrado!');
+  async find (req: Request, res: Response): Promise<Response>{
+    let id = Number(req.params.id);
+
+    let movement: Movement| null = await Movement.findOneBy({id: id});
+    if(!movement){
+        return res.status(422).json({error: "movement not found"});
+    }
+    return res.status(200).json(movement);
+  }
+
+
+  async create (req: Request, res: Response): Promise<Response>{
+    let payload = req.body;
+    let id: number = Number(payload.itemId);
+    let item: Item|null = await Item.findOneBy({id: id});
+    if(!item){
+      return res.status(422).json({error: "Item not found"});
     }
 
-    let item: Item | null = await Item.findOneBy({ id: itemId });
-    if (! item) {
-      throw new Error('item não encontrado!');
-    }
 
-    if(recipient_id){
-      let recipient: Recipient | null = await Recipient.findOneBy({ id: recipient_id });
-      if (! recipient) {
-        throw new Error('Beneficiário não encontrado!');
+    if(payload.type =='saida'){
+      id = Number(payload.recipientId);
+      let recipient: Recipient|null = await Recipient.findOneBy({id:id});
+      if(!recipient){
+        return res.status(422).json({error: "Recipient not found"});
       }
-      return await Movement.create({
-        type: type,
-        town: town,
-        amount: amount,
-        user_id: userId,
-        item_id: itemId,
-        recipient_id: recipient_id
-      }).save();
-    }else if(recipient_id == null){
-      return await Movement.create({
-        type: type,
-        town: town,
-        amount: amount,
-        user_id: userId,
-        item_id: itemId,
-      }).save();
     }else{
-      throw new Error('Tipo inválido')
+      payload.recipientId = null;
     }
+    let movement: Movement = await Movement.create({
+        user_id: payload.user.id,
+        type : payload.type,
+        town: payload.town,
+        amount: payload.amount,
+        item_id: payload.itemId,
+        recipient_id: payload.recipientId
+      })
+      console.log(`Tarefa ID #${movement.id} criada com sucesso!`);
+    console.log('cadastro realizado');
+    return res.status(200).json(movement);
   }
 
-  async find (id: number): Promise<Movement|null> {
-    return await Movement.findOneBy({ id });
+  async edit (req: Request, res: Response): Promise<Response>{
+    let payload = req.body;
+    let id: number = Number(req.params.id);
+  let movement: Movement | null = await Movement.findOneBy({id: id});
+  if (movement) {
+    movement.user_id = movement.user_id;
+    movement.type = payload.type;
+    movement.town = payload.town;
+    movement.amount = payload.amount;
+    movement.recipient_id = payload.recipientId;
+    movement.save();
+    } else {
+    console.log('Tarefa não encontrada!');
+  }
+  return res.status(200).json(movement);
   }
 
-  async edit (movements: Movement,userId: number, type: string,town: string, amount: number, itemId: number, recipient_id: number): Promise<Movement> {
-    let movement: Movement | null = await Movement.findOneBy({ id: movements.id });
-    if (! movement) {
-      throw new Error('Tarefa não encontrada!');
+  async delete(req: Request, res: Response): Promise<Response>{
+    let id = Number(req.params.id);
+    let movement: Movement|null = await Movement.findOneBy({id});
+    if(!movement){
+      return res.status(422).json({error: 'Usuário não encontrado'});
     }
-
-    let category: Category | null = await Category.findOneBy({ id: itemId });
-    if (! category) {
-      throw new Error('Tarefa não encontrada!');
-    }
-    let user: User | null = await User.findOneBy({ id: userId });
-    if (! user) {
-      throw new Error('Usuário não encontrado!');
-    }
-
-    if(type == 'saida'){
-      movement.user_id = userId;
-      movement.type = type;
-      movement.town = town;
-      movement.item_id = itemId;
-      movement.recipient_id = recipient_id;
-      movement.save();
-
-    return movement;
-    }else if(type == 'entrada'){
-      movement.user_id = userId;
-      movement.type = type;
-      movement.town = town;
-      movement.item_id = itemId;
-      movement.save();
-
-    return movement;
-    }else{
-      throw new Error('Tipo enválido');
-    }
-  }
-
-  async delete (movement: Movement): Promise<void> {
-    await movement.remove();
+    movement.remove();
+    return res.status(200).json();
   }
 }

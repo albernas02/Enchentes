@@ -1,41 +1,27 @@
 import DB from './db';
-import { UsersMenu } from './views/UsersMenu';
-import { CategoriesMenu } from './views/CategoriesMenu';
-import { MovementsMenu } from './views/MovementsMenu';
-import { ItemsMenu } from './views/ItemsMenu';
-import { RecepientsMenu } from './views/RecepientsMenu';
-import promptSync from 'prompt-sync';
-import { DcMenu } from './views/DcMenu';
-import { start } from 'repl';
-import UsersServer from './routes/UsersServer';
-// import RecipientsServer from './routes/RecipientsServer';
-// import ItemsServer from './routes/ItemsServer';
-// import DcsServer from './routes/DcsServer';
-// import CategoriesServer from './routes/CategoriesServer';
-// import MovementsServer from './routes/MovementsServer';
-// import Server from './routes/Server';
+// import { UsersMenu } from './views/UsersMenu';
+// import { CategoriesMenu } from './views/CategoriesMenu';
+// import { MovementsMenu } from './views/MovementsMenu';
+// import { ItemsMenu } from './views/ItemsMenu';
+// import { RecepientsMenu } from './views/RecepientsMenu';
+// import promptSync from 'prompt-sync';
+// import { DcMenu } from './views/DcMenu';
+ import Server from './Server';
 
-const prompt = promptSync();
+// const prompt = promptSync();
 
 async function main(): Promise<void> {
   await DB.initialize();
   // Inicializa os menus
-  let usersMenu: UsersMenu = new UsersMenu();
-  let categoriesMenu: CategoriesMenu = new CategoriesMenu();
-  let movementsMenu: MovementsMenu = new MovementsMenu();
-  let recipientsMenu: RecepientsMenu = new RecepientsMenu();
-  let itemsMenus: ItemsMenu = new ItemsMenu();
-  let dcsMenu: DcMenu = new DcMenu();
+  // let usersMenu: UsersMenu = new UsersMenu();
+  // let categoriesMenu: CategoriesMenu = new CategoriesMenu();
+  // let movementsMenu: MovementsMenu = new MovementsMenu();
+  // let recipientsMenu: RecepientsMenu = new RecepientsMenu();
+  // let itemsMenus: ItemsMenu = new ItemsMenu();
+  // let dcsMenu: DcMenu = new DcMenu();
 
 
-  // Server.start();
-    UsersServer.start();
-  // RecipientsServer.start();
-  // DcsServer.start();
-  // ItemsServer.start();
-  // CategoriesServer.start();
-  // MovementsServer.start();
-
+  Server.start();
 
 //   let control: string = '';
 //   let input: string = '';

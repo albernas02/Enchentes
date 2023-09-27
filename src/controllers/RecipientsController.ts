@@ -1,47 +1,59 @@
+import  express, {Request, Response} from "express";
+import cors from 'cors';
 import { Recipient } from '../models/Recipient';
-import { Dc } from '../models/Dc';
 
 export class RecipientsController {
 
-  async list (): Promise<Recipient[]> {
-    return await Recipient.find();
+  async list (req: Request, res: Response): Promise<Response>{
+    let recipients: Recipient[] = await Recipient.find();
+    return res.status(200).json(recipients);
   }
 
-  async create (name: string, phone: string, situation: string,address: string, dc_id: number): Promise<Recipient> {
-    let dc: Dc | null = await Dc.findOneBy({ id: dc_id });
-    if (! dc) {
-      throw new Error('dc não encontrada!');
+  async find (req: Request, res: Response): Promise<Response>{
+    let id = Number(req.params.id);
+
+    let recipient: Recipient| null = await Recipient.findOneBy({id: id});
+    if(!recipient){
+        return res.status(422).json({error: "recipient not found"});
     }
-
-    return await Recipient.create({
-      name,
-      phone,
-      situation,
-      address,
-      dc_id,
-    }).save();
+    return res.status(200).json(recipient);
   }
 
-  async find (id: number): Promise<Recipient|null> {
-    return await Recipient.findOneBy({ id });
+  async create (req: Request, res: Response): Promise<Response>{
+    let payload = req.body;
+    let recipient: Recipient = await Recipient.create({
+      name : payload.name,
+      address : payload.address,
+      phone : payload.phone,
+      situation : 'a',
+      dc_id : payload.dcId,
+  })
+      console.log('cadastro realizado')
+    return res.status(200).json(recipient);
   }
 
-  async edit (recipient: Recipient, name: string, phone: string, situation: string, dcId: number): Promise<Recipient> {
-    let dc: Dc | null = await Dc.findOneBy({ id: dcId });
-    if (! dc) {
-      throw new Error('categoria não encontrada!');
+
+  async edit (req: Request, res: Response): Promise<Response>{
+    let payload = req.body;
+    let id = Number(req.params.id);
+    let recipient: Recipient|null = await Recipient.findOneBy({id});
+    if(!recipient){
+      return res.status(422).json({error: 'Usuário não encontrado'});
     }
-    recipient.name = name;
-    recipient.phone = phone;
-    recipient.situation = situation;
-    recipient.dc_id = dcId
-    await recipient.save();
-
-    return recipient;
+    recipient.name= payload.name;
+    recipient.phone= payload.phone;
+    recipient.dc_id= payload.dc;
+    recipient.situation = 'a';
+      return res.status(200).json(recipient);
   }
-
-  async delete (recipient: Recipient): Promise<void> {
-    recipient.situation = 'I';
+  async delete (req: Request, res: Response): Promise<Response>{
+    let id = Number(req.params.id);
+    let recipient: Recipient|null = await Recipient.findOneBy({id});
+    if(!recipient){
+      return res.status(422).json({error: 'Usuário não encontrado'});
+    }
+    recipient.situation = 'i';
     await recipient.save();
+    return res.status(200).json();
   }
 }
