@@ -21,4 +21,4 @@ export class Item extends BaseEntity {
   @ManyToOne(() => Category, (category) => category.item)
   @JoinColumn({ name: 'categories_id' })
   public recipient: Promise<Category>;
-}
+} 

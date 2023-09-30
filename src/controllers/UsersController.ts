@@ -12,53 +12,39 @@ export class UsersController {
   }
 
   async find (req: Request, res: Response): Promise<Response>{
-    let id = Number(req.params.id);
-
-    let user: User| null = await User.findOneBy({id: id});
-    if(!user){
-        return res.status(422).json({error: "user not found"});
-    }
+    let user: User = res.locals.user;
     return res.status(200).json(user);
   }
 
   async create (req: Request, res: Response): Promise<Response>{
     let payload = req.body;
-    let password = await crypto.cript(payload.password);
+
     let user: User = await User.create({
       name : payload.name,
-      password : password,
       email : payload.email,
+      password : crypto.cript(payload.password),
       situation : 'a',
-  })
-      console.log('cadastro realizado')
+    }).save()
     return res.status(200).json(user);
   }
 
   async edit(req: Request, res: Response): Promise<Response>{
     let payload = req.body;
-    let id = Number(req.params.id);
-    let password = await crypto.cript(payload.password);
-    let user: User| null = await User.findOneBy({id : id})
-      if(!user){
-        return res.status(422).json({error: 'Usuário não encontrado'});
-      }
-      user.name = payload.name,
-      user.password = password,
-      user.email = payload.email,
-      user.situation = 'a',
+    let user : User = res.locals.user;
 
-      console.log('cadastro realizado')
+    user.name = payload.name;
+    user.email = payload.email;
+    user.password = crypto.cript(payload.password);
+    await user.save();
+
     return res.status(200).json(user);
   }
 
   async delete (req: Request, res: Response): Promise<Response>{
-    let id = Number(req.params.id);
-    let user: User|null = await User.findOneBy({id: id});
-    if(!user){
-      return res.status(422).json({error: 'Usuário não encontrado'});
-    };
+    let user: User = res.locals.user;
     user.situation = 'i';
     await user.save();
-    return res.status(200).json(user);
+
+    return res.status(200).json();
   }
 }

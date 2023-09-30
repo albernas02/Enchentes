@@ -10,46 +10,38 @@ export class DcController{
   }
 
   async find (req: Request, res: Response): Promise<Response>{
-    let id = Number(req.params.id);
+    let dc: Dc = res.locals.dc;
 
-    let dc: Dc| null = await Dc.findOneBy({id: id});
-    if(!dc){
-        return res.status(422).json({error: "dc not found"});
-    }
     return res.status(200).json(dc);
   }
 
   async create (req: Request, res: Response): Promise<Response>{
-      let payload = req.body;
-      let town= payload.town;
-      let situation= 'a';
+    let payload = req.body;
 
-      let dc: Dc = await Dc.create({
-        town : town,
-        situation : 'a',
-  })
-        console.log('cadastro realizado')
-      return res.status(200).json(dc);
-    }
+    let dc: Dc = await Dc.create({
+      town : payload.town,
+      situation : 'a',
+    }).save()
+    return res.status(200).json(dc);
+  }
 
   async edit (req: Request, res: Response): Promise<Response>{
     let payload = req.body;
-    let id = Number(req.params.id);
-    let dc: Dc|null = await Dc.findOneBy({id});
-    if(!dc){
-      return res.status(422).json({error: 'Usuário não encontrado'});
-    }
-    dc.town = payload.town;
+      let dc : Dc = res.locals.dc;
+
+      dc.town = payload.town;
+      dc.situation = 'a';
+      await dc.save();
+
       return res.status(200).json(dc);
   }
 
   async delete (req: Request, res: Response): Promise<Response>{
-    let id = Number(req.params.id);
-    let dc: Dc|null = await Dc.findOneBy({id});
-    if(!dc){
-      return res.status(422).json({error: 'Usuário não encontrado'});
-    }
-    dc.situation = 'i';
-    return res.status(200).json();
+    let dc: Dc = res.locals.dc;
+
+        dc.situation = 'i';
+        await dc.save();
+
+        return res.status(200).json();
   }
 }

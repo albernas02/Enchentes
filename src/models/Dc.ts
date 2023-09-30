@@ -11,6 +11,9 @@ export class Dc extends BaseEntity{
   public town: string;
 
   @Column()
+  public address: string;
+
+  @Column()
   public situation: string;
 
   @OneToMany(() => Recipient, (recipients) => recipients.dc)
